@@ -18,13 +18,14 @@ func main() {
 
 func startServer() {
 	router := mux.NewRouter().StrictSlash(true)
-	router.HandleFunc("/ids", Id)
+	router.HandleFunc("/", Id)
 	router.Queries("count", "{count:[0-9]+}")
+	log.Println("Starting server...")
+	log.Println("Navigate to localhost:8080")
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
 
 func Id(w http.ResponseWriter, r *http.Request) {
-
 	values := r.URL.Query()
 	countVar := values["count"]
 	var count = 1
