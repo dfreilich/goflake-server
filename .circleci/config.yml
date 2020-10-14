@@ -13,6 +13,8 @@ jobs:
       - run: 
           command: |
             echo "hi"
+            ls /tmp/workspace/images/
+            docker load -i /tmp/workspace/images/image.tgz
             docker run -d -p 8080:8080 goflake-test
             curl localhost:8080/
 workflows:
