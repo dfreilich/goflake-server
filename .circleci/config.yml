@@ -1,0 +1,26 @@
+# Golang CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-go/ for more details
+version: 2.1
+orbs:
+  pack: buildpacks/pack@0.2.0
+jobs:
+  test:
+    machine: true
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - run: 
+          command: |
+            echo "hi"
+            docker run -d -p 8080:8080 goflake-test
+            curl localhost:8080/
+workflows:
+  main:
+    jobs:
+      - pack/build:
+          image-name: goflake-test
+          builder: 'heroku/buildpacks:18'
+      - test:
+          requires:
+            - pack/build
