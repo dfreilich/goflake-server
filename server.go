@@ -20,6 +20,7 @@ func startServer() {
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/", Id)
 	router.Queries("count", "{count:[0-9]+}")
+	log.Println("Hello world!")
 	log.Println("Starting server...")
 	log.Println("Navigate to localhost:8080")
 	log.Fatal(http.ListenAndServe(":8080", router))
