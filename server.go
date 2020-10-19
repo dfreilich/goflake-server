@@ -25,6 +25,7 @@ func startServer() {
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
 
+// HelloWorld prints a Hello World statement
 func HelloWorld(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode("Hello, KubeCon!")
 
