@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
-	"strconv"
 
 	"github.com/bstick12/goflake"
 	"github.com/gorilla/mux"
@@ -18,7 +17,7 @@ func main() {
 
 func startServer() {
 	router := mux.NewRouter().StrictSlash(true)
-	router.HandleFunc("/", Id)
+	router.HandleFunc("/", HelloWorld)
 	router.Queries("count", "{count:[0-9]+}")
 	log.Println("Hello world!")
 	log.Println("Starting server...")
@@ -26,21 +25,7 @@ func startServer() {
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
 
-func Id(w http.ResponseWriter, r *http.Request) {
-	values := r.URL.Query()
-	countVar := values["count"]
-	var count = 1
-	if len(countVar) == 1 {
-		count, _ = strconv.Atoi(countVar[0])
-	}
-
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-
-	ids := []string{}
-	for i := 0; i < count; i++ {
-		ids = append(ids, generator.GetBase64UUID())
-	}
-	json.NewEncoder(w).Encode(ids)
+func HelloWorld(w http.ResponseWriter, r *http.Request) {
+	json.NewEncoder(w).Encode("Hello, KubeCon!")
 
 }

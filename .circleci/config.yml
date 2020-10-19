@@ -10,19 +10,19 @@ jobs:
     steps:
       - attach_workspace:
           at: /tmp/workspace
-      - run: 
+      - run:
           command: |
             echo "hi"
             ls /tmp/workspace/images/
             docker load -i /tmp/workspace/images/image.tgz
-            docker run -d -p 8080:8080 goflake-test
+            docker run -d -p 8080:8080 hello-buildpacks
             curl localhost:8080/
 workflows:
   main:
     jobs:
       - pack/build:
-          image-name: goflake-test
-          builder: 'heroku/buildpacks:18'
+          image-name: hello-buildpacks
+          builder: 'paketobuildpacks/builder:tiny'
       - test:
           requires:
             - pack/build
