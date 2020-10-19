@@ -1,22 +1,6 @@
-# Golang CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-go/ for more details
 version: 2.1
 orbs:
   pack: buildpacks/pack@0.2.0
-jobs:
-  test:
-    machine: true
-    steps:
-      - attach_workspace:
-          at: /tmp/workspace
-      - run:
-          command: |
-            echo "hi"
-            ls /tmp/workspace/images/
-            docker load -i /tmp/workspace/images/image.tgz
-            docker run -d -p 8080:8080 hello-buildpacks
-            curl localhost:8080/
 workflows:
   main:
     jobs:
@@ -26,3 +10,14 @@ workflows:
       - test:
           requires:
             - pack/build
+jobs:
+  test:
+    machine: true
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          command: |
+            docker load -i /tmp/workspace/images/image.tgz
+            docker run -d -p 8080:8080 hello-buildpacks
+            curl localhost:8080/
